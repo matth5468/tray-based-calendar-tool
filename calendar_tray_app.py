@@ -42,8 +42,10 @@ calendar_window = None
 # ************************************************************* COLORS
 
 HEADER_COLOR = "#2F5597"
-TODAY_COLOR = "#D9EAF7"
 SELECTED_COLOR = "#FFF2CC"
+TODAY_COLOR_SELECT = "#D9EAF7"
+TODAY_COLOR_OUTPUT = "#FFFFFF"
+OTHER_DAY_COLOR_OUTPUT = "#FFFFFF"
 
 # ************************************************************* FONT
 
@@ -188,15 +190,15 @@ def create_weekly_image():
 
     today = date.today()
 
-    # Monday of this week.
-    monday = (
+    # Sunday of this week.
+    sunday = (
         today
-        - timedelta(days=today.weekday())
+        - timedelta(days=today.weekday() + 1)
     )
 
     # 14 days = this week + next week.
     days = [
-        monday + timedelta(days=i)
+        sunday + timedelta(days=i)
         for i in range(14)
     ]
 
@@ -239,7 +241,7 @@ def create_weekly_image():
 
 # ************************************************************* MAKE THE TILE OF THE IMAGE
 
-    title = "Weekly Calendar"
+    title = "My Upcoming Approximate Schedule"
 
     bbox = draw.textbbox(
         (0, 0),
@@ -266,13 +268,13 @@ def create_weekly_image():
     column_width = width // 7
 
     day_names = [
+        "Sunday",
         "Monday",
         "Tuesday",
         "Wednesday",
         "Thursday",
         "Friday",
-        "Saturday",
-        "Sunday"
+        "Saturday"
     ]
 
     for col, name in enumerate(day_names):
@@ -342,11 +344,11 @@ def create_weekly_image():
 
             if current_date == today:
 
-                background = TODAY_COLOR
+                background = TODAY_COLOR_OUTPUT
 
             else:
 
-                background = "white"
+                background = OTHER_DAY_COLOR_OUTPUT
 
             draw.rectangle(
                 [
@@ -629,13 +631,13 @@ def create_month(
 
     # Day headings
     names = [
+        "Sun",
         "Mon",
         "Tue",
         "Wed",
         "Thu",
         "Fri",
-        "Sat",
-        "Sun"
+        "Sat"
     ]
 
     for col, name in enumerate(names):
@@ -654,6 +656,8 @@ def create_month(
             padx=1,
             pady=1
         )
+
+    weeks = calendar.setfirstweekday(6)
 
     # Actual dates
     weeks = calendar.monthcalendar(
@@ -703,7 +707,7 @@ def create_month(
             # Background
             if selected_date == today:
 
-                background = TODAY_COLOR
+                background = TODAY_COLOR_SELECT
 
             elif value:
 
@@ -779,7 +783,7 @@ def rebuild_calendar():
             f"+{x}+{y}"
         )
 
-# ************************************************************* CALENDAR WINDOW
+# ************************************************************* CHOOSE SHIFT WINDOW
 
 def open_value_menu(selected_date):
 
