@@ -202,11 +202,11 @@ def create_weekly_image():
         for i in range(14)
     ]
 
-    width = 1400
+    width = 600
 
-    title_height = 70
-    header_height = 80
-    row_height = 140
+    title_height = 40
+    header_height = 40
+    row_height = 90
 
     height = (
         title_height
@@ -223,19 +223,19 @@ def create_weekly_image():
     draw = ImageDraw.Draw(image)
 
     title_font = get_font(
-        36,
+        20,
         bold=True
     )
 
     day_font = get_font(
-        25,
+        14,
         bold=True
     )
 
-    date_font = get_font(25)
+    date_font = get_font(18)
 
     value_font = get_font(
-        65,
+        24,
         bold=True
     )
 
